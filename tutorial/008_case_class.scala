@@ -62,6 +62,8 @@ case class Foo(x: Int)
 // that will allow the assertions below to hold.
 
 // DEFINE THE CLASS HERE
+case class MyCaseClass(val field: Int)
+
 val c1: MyCaseClass = MyCaseClass(7)
 val c2: MyCaseClass = MyCaseClass(7)
 
