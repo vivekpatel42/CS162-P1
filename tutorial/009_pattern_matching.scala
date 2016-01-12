@@ -85,10 +85,10 @@ random.nextString(random.nextInt(4)) match {
 // that end with 'z', and the fourth case to everything else.
 
 random.nextString(random.nextInt(4)) match {
-  case ... => println("Empty string")
-  case ... => println("Saw foo")
-  case ... => println("Ends with z")
-  case ... => println("Something else")
+  case "" => println("Empty string")
+  case "Foo" => println("Saw foo")
+  case s if s.charAt(s.length - 1) == 'z' => println("Ends with z")
+  case _ => println("Something else")
 }
 
 // Now to add a bit of complexity, let's define a method that
@@ -349,12 +349,12 @@ someValue match {
 // -A catch-all case (i.e., a default)
 
 somethingRandom match {
-  case ... => println("Found a long value")
-  case ... => println("Found 5")
-  case ... => println("Found an OtherBase holding a Foo")
-  case ... => println("Found an OtherBase holding a Bar, which " +
+  case l: Long => println("Found a long value")
+  case 5 => println("Found 5")
+  case OtherBase(Foo(7)) => println("Found an OtherBase holding a Foo")
+  case OtherBase(Bar(7, true)) => println("Found an OtherBase holding a Bar, which " +
                       "itself was holding 7")
-  case ... => takesBar(b)
+  case b: Bar => takesBar(b)
   case _ => println("Hit the default case")
 }
 
