@@ -410,13 +410,18 @@ assert(allItemsPurchased(database) == allItemsPurchased2(database))
 // HINT: if `flatMap` were to always return only single-element lists, then it
 //       would behave just like `map` would.
 def myMapUsingFlatMap[A, B](input: List[A], function: A => B): List[B] =
-  myFlatMap(input, (item: A) => item.function)
+  if (input.isEmpty) List() else function(input.head) :: myMapUsingFlatMap(input.tail, function)
 
 // HINT: if `flatMap` were to return either empty lists or single-element lists
 //       depending on what the provided function returns for a given element, then
 //       it would behave just like `filter` would.
 def myFilterUsingFlatMap[A](input: List[A], function: A => Boolean): List[A] =
-  myFlatMap(input, (item: A) => item.function)
+  input match {
+		case Nil => List()
+		case head :: tail if function(head) => 
+			head :: myFilterUsingFlatMap(tail, function)
+		case _ :: tail => myFilterUsingFlatMap(tail, function)	
+	}
 
 assert((myMap(List(1, 2, 3), (i: Int) => i + 1) ==
         myMapUsingFlatMap(List(1, 2, 3), (i: Int) => i + 1)))
@@ -747,11 +752,11 @@ assert(Seq(1, 2, 3, 4).foldLeft(0)(_ + _) == 10)
 
 // hint: List[T](), makes an empty list of type T
 
-assert(Seq("moo", "cow", "bull").foldRight(???)(???) == "moocowbull")
-assert(Seq(1, 2, 3).foldLeft(???)(???) == List(3, 2, 1)) // don't use reverse
+assert(Seq("moo", "cow", "bull").foldRight("")(_ + _) == "moocowbull")
+assert(Seq(1, 2, 3).foldLeft(List[Int]())((acc: List[Int], i: Int) => (i :: acc)) == List(3, 2, 1)) // don't use reverse
 
 // hint: Strings have a `length` method
-assert(Seq("moo", "cow", "bull").foldRight(???)(???) == List(3, 3, 4))
+assert(Seq("moo", "cow", "bull").foldRight(List[Int]())((s: String, acc: List[Int]) => (s.length :: acc))  == List(3, 3, 4))
 
 
 // One last operator is worth discussing explicitly on `Seq`.  Say we

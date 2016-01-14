@@ -1,4 +1,4 @@
-// This concludes the introduction to Scala for CS162.  You've covered
+	// This concludes the introduction to Scala for CS162.  You've covered
 // a lot of ground in a short time, but you've really only scratched the
 // surface of what Scala has to offer.  For the most part, we assume
 // of you only what was covered in this tutorial.  That said, there
