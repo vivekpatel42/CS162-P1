@@ -10,7 +10,10 @@ object Problem1 {
       //
       // scala Problem1 foo bar baz
       // oof rab zab
-    }
+			for (str <- args)
+				print(str.reverse + " ")			
+    	println
+		}
 }
 
 object Problem2 {
@@ -68,7 +71,7 @@ object Problem2 {
     // is equivalent, because the mutable variable sets up an implicit
     // data dependency between recursive calls, whereas with functional
     // purity we must make this data dependency explicit.
-  }
+	} 
 }
 
 object Problem3 {
@@ -103,5 +106,18 @@ object Problem3 {
     // moo
     // List(foo, bar, baz, moo, cow)
     // List((foo,1), (bar,2), (baz,1), (moo,3), (cow,1))
-  }
+ 		println(list.foldLeft("")((acc: String, s: String) => 
+			if (s > acc) {
+				s
+			} else {
+				acc
+			}))												
+		println((list.foldLeft(List[String]())((acc: List[String], s: String) => 
+			if (!acc.contains(s)) {
+				s :: acc
+			} else {
+				acc
+			})).reverse)
+		//println(list.foldLeft(List[Map[String, Int]]())((acc: List[Map[String, Int]], s: String) => acc.) 
+	}
 }

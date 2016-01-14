@@ -152,25 +152,44 @@ case class MyCons[A](x: A, xs: MyList[A]) extends MyList[A] {
   // Note: all the methods below are implicitly specialized for
   // non-empty lists, since these are defined on a Cons.
 
-  def map[B](f: A => B): MyList[B] = ???
+  def map[B](f: A => B): MyList[B] = {
+		this match {
+			case MyCons(x, xs) => MyCons(f(x), xs.map(f))
+			case _ => MyNil()
+		}
+	} 
 
-  def flatMap[B](f: A => MyList[B]): MyList[B] = ???
+  def flatMap[B](f: A => MyList[B]): MyList[B] = {
+		this match {
+			case MyCons(x, xs) => (xs.flatMap(f)).append(f(x))
+			case _ => MyNil()
+		}
+	}
 
-  def filter(pred: A => Boolean): MyList[A] = ???
-
-  def append(other: MyList[A]): MyList[A] = ???
+  def filter(pred: A => Boolean): MyList[A] = ??? /* {
+		this match {
+			case MyNil => MyNil()
+			case MyCons(x, xs) if pred(x) => 
+				MyCons(x, xs.filter(pred))
+			case _ :: xs => xs.filter(pred)	
+		}
+	} */
+	
+  def append(other: MyList[A]): MyList[A] = {
+		if (other.isEmpty) MyNil() else (other.x + this.append(other.xs))
+	}	
 
   def foldLeft[B](initial: B)(f: (B, A) => B): B = ???
 
   def foldRight[B](initial: B)(f: (A, B) => B): B = ???
 
-  def take(n: Int): MyList[A] = ???
-
+  def take(n: Int): MyList[A] = ??? 
+	
   def drop(n: Int): MyList[A] = ???
 
-  def head: A = ???
+  def head: A = this.x
 
-  def tail: MyList[A] = ???
+  def tail: MyList[A] = this.xs
 
   def init: MyList[A] = ???
 
@@ -190,37 +209,37 @@ case class MyNil[A]() extends MyList[A] {
   // Note: all the methods below are implicitly specialized for
   // empty lists, since these are defined on Nil
 
-  def map[B](f: A => B): MyList[B] = ???
+  def map[B](f: A => B): MyList[B] = MyList()
 
-  def flatMap[B](f: A => MyList[B]): MyList[B] = ???
+  def flatMap[B](f: A => MyList[B]): MyList[B] = MyList()
 
-  def filter(pred: A => Boolean): MyList[A] = ???
+  def filter(pred: A => Boolean): MyList[A] = MyList()
 
-  def append(other: MyList[A]): MyList[A] = ???
+  def append(other: MyList[A]): MyList[A] = MyList()
 
-  def foldLeft[B](initial: B)(f: (B, A) => B): B = ???
+  def foldLeft[B](initial: B)(f: (B, A) => B): B = initial
 
-  def foldRight[B](initial: B)(f: (A, B) => B): B = ???
+  def foldRight[B](initial: B)(f: (A, B) => B): B = initial
 
-  def take(n: Int): MyList[A] = ???
+  def take(n: Int): MyList[A] = MyList()
 
-  def drop(n: Int): MyList[A] = ???
+  def drop(n: Int): MyList[A] = MyList()
 
-  def head: A = ???
+  def head: A = throw InvalidOperationException("List is empty.")
 
-  def tail: MyList[A] = ???
+  def tail: MyList[A] = throw InvalidOperationException("List is empty.")
 
-  def init: MyList[A] = ???
+  def init: MyList[A] = throw InvalidOperationException("List is empty.")
 
-  def last: A = ???
+  def last: A = throw InvalidOperationException("List is empty.")
 
-  def safeHead: Option[A] = ???
+  def safeHead: Option[A] = None
 
-  def safeTail: Option[MyList[A]] = ???
+  def safeTail: Option[MyList[A]] = None
 
-  def isEmpty: Boolean = ???
+  def isEmpty: Boolean = true
 
-  def length: Int = ???
+  def length: Int = 0
 }
 
 object Tester {
